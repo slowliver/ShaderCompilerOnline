@@ -13,6 +13,8 @@ namespace ShaderCompilerOnline
 	{
 		public static void Main(string[] args)
 		{
+			var bootstrap = new ShaderCompilerOnline.Source.Backend.Bootstrap();
+
 			CreateHostBuilder(args).Build().Run();
 		}
 
