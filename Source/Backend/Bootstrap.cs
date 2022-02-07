@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.IO;
+using System.IO.Compression;
 
 namespace ShaderCompilerOnline.Source.Backend
 {
 	public abstract class BootstrapElement
 	{
 		public virtual string[] urls { get; }
-		public virtual string temporaryDirectory { get; }
+		public virtual string workingDirectory { get; }
+		public virtual string OnGetSaveFileNameEach(string url) { return url; }
+		public virtual void OnExtractEach(string srcURL, string srcPath, string outDir) { }
 	}
 
 	public class DXCBootstrapElement : BootstrapElement
@@ -31,11 +35,36 @@ namespace ShaderCompilerOnline.Source.Backend
 			}
 		}
 
-		public override string temporaryDirectory { get { return "DXC"; } }
+		public override string workingDirectory { get { return "DXC"; } }
+
+		public override void OnExtractEach(string srcURL, string srcPath, string outDir)
+		{
+			using (var archive = ZipFile.OpenRead(srcPath))
+			{
+				foreach (var entry in archive.Entries)
+				{
+					if (entry.FullName.Replace("\\", "/").EndsWith("x64/dxc.exe", StringComparison.OrdinalIgnoreCase) ||
+						(!entry.FullName.Replace("\\", "/").EndsWith("x64/dxc.exe", StringComparison.OrdinalIgnoreCase) &&
+						 !entry.FullName.Replace("\\", "/").EndsWith("x86/dxc.exe", StringComparison.OrdinalIgnoreCase) &&
+						  entry.FullName.Replace("\\", "/").EndsWith("dxc.exe", StringComparison.OrdinalIgnoreCase)))
+					{
+						var relativeDir = Path.GetDirectoryName(srcURL.Remove(0, "https://github.com/microsoft/DirectXShaderCompiler/releases/download/".Length));
+						var absoluteDir = Path.Combine(outDir, relativeDir);
+						if(!Directory.Exists(absoluteDir))
+						{
+							Directory.CreateDirectory(absoluteDir);
+						}
+						entry.ExtractToFile(Path.Combine(absoluteDir, "dxc.exe"));
+					}
+				}
+			}
+		}
+
 	}
 
 	public class Bootstrap
 	{
+
 		public Bootstrap()
 		{
 			var elements = new BootstrapElement[]
@@ -49,6 +78,11 @@ namespace ShaderCompilerOnline.Source.Backend
 			{
 				foreach(var url in element.urls)
 				{
+					var filePath = Path.Combine(GetTemporaryDirectory(element.workingDirectory), Path.GetFileName(url));
+					if(File.Exists(filePath))
+					{
+						continue;
+					}
 					var downloadTask = httpClient.GetAsync(url);
 					downloadTask.Wait();
 					if(!downloadTask.Result.IsSuccessStatusCode)
@@ -57,11 +91,31 @@ namespace ShaderCompilerOnline.Source.Backend
 					}
 					var byteArrayTask = downloadTask.Result.Content.ReadAsByteArrayAsync();
 					byteArrayTask.Wait();
-					// byteArrayTask.Result
-					System.Diagnostics.Trace(System.IO.Path.)
+					File.WriteAllBytes(filePath, byteArrayTask.Result);
+					element.OnExtractEach(url, filePath, GetOutputDirectory(element.workingDirectory));
+		//			System.Diagnostics.Trace.WriteLine(GetOutputDirectory(element.temporaryDirectory), fileName);
 				}
 			}
 		}
 
+		private string GetTemporaryDirectory(string subDir)
+		{
+			var dir = Path.Combine(Directory.GetCurrentDirectory(), "Temp", subDir);
+			if(!Directory.Exists(dir))
+			{
+				Directory.CreateDirectory(dir);
+			}
+			return dir;
+		}
+
+		private string GetOutputDirectory(string subDir)
+		{
+			var dir = Path.Combine(Directory.GetCurrentDirectory(), "External", subDir);
+			if (!Directory.Exists(dir))
+			{
+				Directory.CreateDirectory(dir);
+			}
+			return dir;
+		}
 	}
 }
