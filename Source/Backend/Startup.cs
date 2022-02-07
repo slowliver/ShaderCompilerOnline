@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 namespace ShaderCompilerOnline
 {
@@ -46,7 +48,11 @@ namespace ShaderCompilerOnline
 			}
 
 			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+			app.UseStaticFiles(new StaticFileOptions()
+			{
+				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Source/Frontend/Content")),
+				RequestPath = "/Frontend",
+			});
 
 			app.UseRouting();
 

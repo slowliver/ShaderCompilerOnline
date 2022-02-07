@@ -14,6 +14,51 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Source\Frontend\Content\css\site.css" />
+    <None Remove="Source\Frontend\Content\js\site.js" />
+    <None Remove="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Source\Frontend\Content\css\site.css" />
+    <Content Include="Source\Frontend\Content\favicon.ico" />
+    <Content Include="Source\Frontend\Content\js\site.js" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap-grid.css" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap-reboot.css" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\js\bootstrap.js" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <Content Include="Source\Frontend\Content\lib\bootstrap\LICENSE" />
+    <Content Include="Source\Frontend\Content\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <Content Include="Source\Frontend\Content\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Source\Frontend\Content\lib\jquery-validation-unobtrusive\LICENSE.txt" />
+    <Content Include="Source\Frontend\Content\lib\jquery-validation\dist\additional-methods.js" />
+    <Content Include="Source\Frontend\Content\lib\jquery-validation\dist\additional-methods.min.js" />
+    <Content Include="Source\Frontend\Content\lib\jquery-validation\dist\jquery.validate.js" />
+    <Content Include="Source\Frontend\Content\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <Content Include="Source\Frontend\Content\lib\jquery-validation\LICENSE.md" />
+    <Content Include="Source\Frontend\Content\lib\jquery\dist\jquery.js" />
+    <Content Include="Source\Frontend\Content\lib\jquery\dist\jquery.min.js" />
+    <Content Include="Source\Frontend\Content\lib\jquery\dist\jquery.min.map" />
+    <Content Include="Source\Frontend\Content\lib\jquery\LICENSE.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.18" />
   </ItemGroup>
 

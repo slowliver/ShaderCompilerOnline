@@ -59,7 +59,6 @@ namespace ShaderCompilerOnline.Source.Backend
 				}
 			}
 		}
-
 	}
 
 	public class Bootstrap
