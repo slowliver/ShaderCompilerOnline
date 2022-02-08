@@ -1,10 +1,38 @@
-﻿@page 
+﻿@page
+
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
+<link rel="stylesheet" href="~/lib/codemirror/codemirror.css">
+<script src="~/lib/codemirror/codemirror.js"></script>
+<script src="~/lib/codemirror/mode/javascript/javascript.js"></script>
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<form method="post" asp-page-handler="context">
+<textarea asp-for="inputData.text"></textarea>
+    <input type="button" value="確認する" id="button2">
+    <button>test</button>
+</form>
+
+<textarea asp-for="outputData.text"></textarea>
+
+<script type="text/javascript">
+    var editor = CodeMirror.fromTextArea(document.getElementById("inputData_text"),
+        {
+            mode: "shader", // 言語を設定する
+        });
+</script>
+
+<div class="container-main-wrapper">
+    <div class="main-options">...</div>
+    <div class="main-inout">
+        <div class="input-area">...</div>
+        <div class="output-area">...</div>
+    </div>
 </div>

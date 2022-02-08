@@ -51,7 +51,7 @@ namespace ShaderCompilerOnline
 			app.UseStaticFiles(new StaticFileOptions()
 			{
 				FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Source/Frontend/Content")),
-				RequestPath = "/Frontend",
+//				RequestPath = "/Frontend",
 			});
 
 			app.UseRouting();

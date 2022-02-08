@@ -43,10 +43,12 @@ namespace ShaderCompilerOnline.Source.Backend
 			{
 				foreach (var entry in archive.Entries)
 				{
-					if (entry.FullName.Replace("\\", "/").EndsWith("x64/dxc.exe", StringComparison.OrdinalIgnoreCase) ||
-						(!entry.FullName.Replace("\\", "/").EndsWith("x64/dxc.exe", StringComparison.OrdinalIgnoreCase) &&
-						 !entry.FullName.Replace("\\", "/").EndsWith("x86/dxc.exe", StringComparison.OrdinalIgnoreCase) &&
-						  entry.FullName.Replace("\\", "/").EndsWith("dxc.exe", StringComparison.OrdinalIgnoreCase)))
+					var path = entry.FullName.Replace("\\", "/").ToLower();
+					var fileName = Path.GetFileName(path);
+					var dir = Path.GetDirectoryName(path);
+					var extension = Path.GetExtension(path);
+					var isValidExtension = (extension == ".exe" || extension == ".dll");
+					if ((dir.EndsWith("x64") || (!dir.EndsWith("x64") && !dir.EndsWith("x86"))) && isValidExtension)
 					{
 						var relativeDir = Path.GetDirectoryName(srcURL.Remove(0, "https://github.com/microsoft/DirectXShaderCompiler/releases/download/".Length));
 						var absoluteDir = Path.Combine(outDir, relativeDir);
@@ -54,7 +56,7 @@ namespace ShaderCompilerOnline.Source.Backend
 						{
 							Directory.CreateDirectory(absoluteDir);
 						}
-						entry.ExtractToFile(Path.Combine(absoluteDir, "dxc.exe"));
+						entry.ExtractToFile(Path.Combine(absoluteDir, fileName));
 					}
 				}
 			}
